@@ -6,32 +6,31 @@ Validators can be intercepted on a page level or field level.
 # HowTo
 Add a the script `interceptableValidators.js` to your site and initialize validators **AFTER** the ASP.NET validation code block. This can be done by using jQuery's DomReady event
 
-`
-$(function () {
-	interceptPageValidation({
-		beforeValidation: function () {
-			console.log('beforeValidatorOnSubmit');
-		},
-		afterValidation: function (valid) {
-			console.log('afterValidatorOnSubmit' + valid);
-		}
-	});
+			$(function () {
+				interceptPageValidation({
+					beforeValidation: function () {
+						console.log('beforeValidatorOnSubmit');
+					},
+					afterValidation: function (valid) {
+						console.log('afterValidatorOnSubmit' + valid);
+					}
+				});
 
-	interceptFieldValidation({
-		beforeValidation: function (val) {
-			console.log('beforeFieldValidation' + val);
-		},
-		afterValidation: function (val, valid) {
-			var inputFields = $(val).parent('.input-fields:first');
-			if (valid) {
-				inputFields.removeClass('error');
-			} else {
-				inputFields.addClass('error');
-			}
-		}
-	});
-});
-`
+				interceptFieldValidation({
+					beforeValidation: function (val) {
+						console.log('beforeFieldValidation' + val);
+					},
+					afterValidation: function (val, valid) {
+						var inputFields = $(val).parent('.input-fields:first');
+						if (valid) {
+							inputFields.removeClass('error');
+						} else {
+							inputFields.addClass('error');
+						}
+					}
+				});
+			});
+
 
 To intercept page validation use the function `interceptPageValidation`, to intercept field validation use the function `interceptFieldValidation`.
 
