@@ -1,5 +1,5 @@
 ﻿function interceptPageValidation(opt) {
-    if (ValidatorOnSubmit) {
+    if (typeof (ValidatorOnSubmit) == 'function') {
         var OriginalValidatorOnSubmit = ValidatorOnSubmit;
         ValidatorOnSubmit = function () {
             if (opt.beforeValidation) {
@@ -18,7 +18,7 @@
 }
 
 function interceptFieldValidation(opt) {
-    if (Page_Validators) {
+    if (typeof (Page_Validators) == 'object') {
         for (var i = 0, length = Page_Validators.length; i < length; i++) {
             var pageValidator = Page_Validators[i];
 
