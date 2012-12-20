@@ -18,26 +18,29 @@
 }
 
 function interceptFieldValidation(opt) {
-    if (typeof (Page_Validators) == 'object') {
+    if (typeof(Page_Validators) == 'object') {
         for (var i = 0, length = Page_Validators.length; i < length; i++) {
             var pageValidator = Page_Validators[i];
 
             if (pageValidator.evaluationfunction) {
-                var evaluationFunction = pageValidator.evaluationfunction;
 
-                pageValidator.evaluationfunction = function (val) {
-                    if (opt.beforeValidation) {
-                        opt.beforeValidation(val);
-                    }
+                var evaluationWrapper = function(evaluationFunction) {
+                    return function(val) {
+                        if (opt.beforeValidation) {
+                            opt.beforeValidation(val);
+                        }
 
-                    var valid = evaluationFunction(val);
+                        var valid = evaluationFunction(val);
 
-                    if (opt.afterValidation) {
-                        opt.afterValidation(val, valid);
-                    }
+                        if (opt.afterValidation) {
+                            opt.afterValidation(val, valid);
+                        }
 
-                    return valid;
+                        return valid;
+                    };
                 };
+
+                pageValidator.evaluationfunction = evaluationWrapper(pageValidator.evaluationfunction);
             }
         }
     }
